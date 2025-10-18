@@ -313,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('resume-download-btn').href = resumeFileLink;
     document.getElementById('contact-btn').href = `mailto:${contactEmail}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    document.getElementById('moving-easter-egg').href = "secret.html";
+    document.getElementById('moving-easter-egg').href = "secret/";
 
 
     // --- MOVING EASTER EGG ---
@@ -461,4 +461,5 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // --- FOOTER YEAR ---
     document.getElementById('year').textContent = new Date().getFullYear();
+
 });

@@ -1,0 +1,268 @@
+/* Custom Styles */
+body {
+    font-family: 'Lato', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem; /* Offset for fixed header */
+}
+
+/* Scrollbar styles for a more polished look */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #e5e7eb;
+}
+.dark ::-webkit-scrollbar-track {
+    background: #1f2937;
+}
+::-webkit-scrollbar-thumb {
+    background: #9ca3af;
+    border-radius: 10px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #4b5563;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #6b7280;
+}
+
+
+/* Splash Screen Elements */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; /* To stack the text and line */
+}
+
+#instruction-text {
+    position: absolute; /* Absolute positioning for precise placement */
+    top: calc(50% - 80px); /* Position above the line */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 103;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    color: #8B4513; /* Dark Sienna for high contrast on light paper */
+    text-shadow: 0 0 2px rgba(255, 255, 255, 0.2); /* Subtle glow for dark text */
+}
+.dark #instruction-text {
+    color: #fde68a; /* Lighter, more vibrant yellow for dark mode */
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+}
+
+#splash-message-top, #splash-message-bottom {
+    position: absolute;
+    width: 80%;
+    max-width: 600px;
+    text-align: center;
+    z-index: 103;
+    color: #059669; /* Slightly darker emerald for better contrast on light paper */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 1s ease-in-out;
+    pointer-events: none;
+    text-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+.dark #splash-message-top, .dark #splash-message-bottom {
+    color: #34d399; /* Lighter emerald for dark mode */
+    text-shadow: 0 0 2px rgba(0,0,0,0.4);
+}
+
+#splash-message-top {
+    top: 20%;
+}
+
+#splash-message-bottom {
+    bottom: 20%;
+}
+
+#ash-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 102;
+    pointer-events: none;
+}
+
+.paper {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background-color: #f7f1e3;
+    background-image: url('https://www.transparenttextures.com/patterns/paper.png');
+    transition: clip-path 3s cubic-bezier(0.6, 0, 0.4, 1);
+    will-change: clip-path;
+}
+
+.burn-overlay {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(100, 60, 40, 0.7), rgba(50, 30, 30, 0.3) 30%, transparent 60%);
+    opacity: 0;
+    transition: opacity 2s ease-in;
+}
+
+#bottom-paper .burn-overlay {
+     background: linear-gradient(to bottom, rgba(100, 60, 40, 0.7), rgba(50, 30, 30, 0.3) 30%, transparent 60%);
+}
+
+#top-paper {
+    top: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+#bottom-paper {
+    bottom: 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+#thread-container {
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 101;
+    cursor: pointer;
+}
+
+#thread {
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(90deg, #8a6a6a, #6b4f4f, #8a6a6a);
+}
+
+/* The burning ember glow */
+#thread::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 0;
+    height: 8px;
+    background: linear-gradient(90deg, transparent, #ff7b00, #ffb700, #ff7b00, transparent);
+    box-shadow: 0 0 10px 2px #ff7b00, 0 0 20px 5px #ffb700;
+    border-radius: 50%;
+    filter: blur(3px);
+    transition: width 2s linear;
+}
+#thread-container.burning #thread::before {
+    width: 100%;
+}
+
+/* The initial spark effect */
+@keyframes spark {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(3.5); opacity: 0; }
+}
+
+#thread::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -2px; /* Position spark at the very beginning */
+    width: 10px;
+    height: 10px;
+    background: #ffecb3;
+    border-radius: 50%;
+    box-shadow: 0 0 15px 5px #ffecb3, 0 0 25px 10px #ffb700;
+    opacity: 0;
+    transform-origin: center center;
+}
+
+#thread-container.sparking #thread::after {
+    animation: spark 0.3s ease-out forwards;
+}
+
+/* Reveal animations for sections */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Project card hover effect */
+.project-card:hover .project-overlay {
+    opacity: 1;
+}
+.project-card:hover img {
+    transform: scale(1.05);
+}
+
+/* Modal styles */
+#project-modal {
+    transition: opacity 0.3s ease;
+}
+.modal-content {
+    transition: transform 0.3s ease;
+}
+
+/* New Animation for profile picture glow */
+@keyframes pulse-slow {
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+.animate-pulse-slow {
+    animation: pulse-slow 8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Chatbot Styles */
+#chatbot-icon {
+    transition: transform 0.3s ease;
+}
+#chatbot-icon:hover {
+    transform: scale(1.1);
+}
+#chatbot-window {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#chat-messages {
+    scroll-behavior: smooth;
+}
+.typing-indicator span {
+    animation: typing-dots 1.4s infinite;
+}
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+@keyframes typing-dots {
+    0%, 80%, 100% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1.0);
+    }
+}
